@@ -2,51 +2,43 @@
 #include <vector>
 using namespace std;
 
-class merge_sorted_array
+class MergeSortedArray
 {
-   public:
-   void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int i=m-1; 
-        int j=n+m-1;
-        int k=0;
-        for (int i = m; i < (m+n); i++)
+    public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n){
+        int i=m+n-1, j=m-1, k=n-1;
+        while (i>=0)
         {
-           nums1[i]=nums2[k];
-           k++;
-        }
-
-        for (int i = 0; i < nums1.size(); i++)
-        {
-           cout<<nums1[i]<<" ";
-        }
-        cout<<endl;
-        while (i >=0){
-            if(nums1[i]<=nums1[j]){  
-                if (j>m) j--; 
-                else i--;
+            if(j<0 && k>=0){
+                nums1[i--]=nums2[k--];
                 continue;
             }
-            if(nums1[i]>nums1[j]){
-                if(i!=0 && nums1[i-1]>nums1[j]) {
-                }
-                else{
-                    int temp = nums1[i];
-                    nums1[i]=nums1[j];
-                    nums1[j]=temp;
-                    if(j!=m) j--;
-                }
+            if (k<0 && j>=0)
+            {
                 i--;
+                break;
             }
-        }
-        for (int i = 0; i < nums1.size(); i++)
+            if(nums1[j]<nums2[k]){
+                nums1[i]=nums2[k--];
+            }
+            else if (k>=0 && nums1[j]>=nums2[k])
+            {
+                nums1[i]=nums1[j--];
+            }
+            i--;
+        }  
+        i++;  
+        while (i<m+n)
         {
-           cout<<nums1[i]<<" ";
+            cout<<nums1[i]<<" ";
+            i++;
         }
+        cout<<endl; 
     }
 };
 
 int main(){
-    merge_sorted_array msa;
+    MergeSortedArray msa;
     // vector<int> nums1 = {1,2,3,0,0,0};
     // int m = 3;
     // vector<int> nums2 = {2,5,6}; 
@@ -57,10 +49,19 @@ int main(){
     // vector<int> nums2 = {}; 
     // int n = 0;
 
-     vector<int> nums1 = {0};
-    int m = 0;
-    vector<int> nums2 = {1}; 
-    int n = 1;
+    //  vector<int> nums1 = {0};
+    // int m = 0;
+    // vector<int> nums2 = {1}; 
+    // int n = 1;
+    // vector<int> nums1 = {4,5,6,0,0,0};
+    // int m = 3;
+    // vector<int> nums2 = {1,2,3}; 
+    // int n = 3;
+
+    vector<int> nums1 = {1,4,7,0,0,0};
+    int m = 3;
+    vector<int> nums2 = {2,5,9}; 
+    int n = 3;
     msa.merge(nums1,m,nums2,n);
     return 0;
 }
